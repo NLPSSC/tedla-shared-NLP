@@ -1,4 +1,4 @@
-from data_extract.datasources import FullProjectDataSet
+from datasources import FullProjectDataSet
 from pathlib import Path
 
 

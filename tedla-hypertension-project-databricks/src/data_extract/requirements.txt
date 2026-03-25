@@ -1,7 +1,0 @@
-medspacy
-spacy>=3.8
-loguru
-threadpoolctl
-nlp_preprocessor
-pyodbc
-sqlalchemy

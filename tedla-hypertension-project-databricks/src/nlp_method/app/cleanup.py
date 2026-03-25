@@ -47,8 +47,8 @@ def gc_processes(processes):
                 p.pid,
                 worker_join_timeout_seconds,
             )
+            p.join(timeout=60)
             p.terminate()
-            p.join(timeout=30)
             failed_workers.append(idx)
             continue
 

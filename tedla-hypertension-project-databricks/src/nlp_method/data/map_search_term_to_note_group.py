@@ -1,7 +1,6 @@
 from typing import List
 import pandas as pd
-import polars as pl
-from data_extract.datasources.data.note_group_to_term import NoteGroupToTermMap
+from datasources.data.note_group_to_term import NoteGroupToTermMap
 from loguru import logger
 
 

@@ -1,7 +1,6 @@
 import os
-from pathlib import Path
 
-from data_extract.datasources import PandasDataSet
+from datasources import PandasDataSet
 
 
 class NoteGroupToTermMap(PandasDataSet):

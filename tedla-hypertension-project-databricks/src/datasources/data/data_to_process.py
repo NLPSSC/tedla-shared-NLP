@@ -1,9 +1,8 @@
 import os
-from pathlib import Path
 
 import polars as pl
 
-from data_extract.datasources import PolarDataSet
+from datasources import PolarDataSet
 
 
 class NoteMetaData(PolarDataSet):

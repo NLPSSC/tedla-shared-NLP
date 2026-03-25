@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from data_extract.datasources import IterableProjectDataSet
+from datasources import IterableProjectDataSet
 
 
 class NotesToProcess(IterableProjectDataSet):

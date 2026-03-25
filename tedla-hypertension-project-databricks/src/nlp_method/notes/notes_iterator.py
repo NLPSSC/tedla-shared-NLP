@@ -3,8 +3,8 @@ import pandas as pd
 import polars as pl
 from concurrent import futures
 from typing import Any, Generator
-from data_extract.datasources.note_data_aggration import NoteDataAggregator
-from data_extract.datasources.data.note_data import NoteData
+from datasources.note_data_aggration import NoteDataAggregator
+from datasources.data.note_data import NoteData
 from loguru import logger
 
 from nlp_method.results.result_record import SourceData

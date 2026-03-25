@@ -2,10 +2,10 @@ import os
 import polars as pl
 import pandas as pd
 
-from data_extract.datasources import PolarDataSet
-from data_extract.datasources.data.data_to_process import NoteMetaData
-from data_extract.datasources.data.note_data import NoteData
-from data_extract.datasources.data.note_to_visit_date import NoteToVisitDetails
+from datasources import PolarDataSet
+from datasources.data.data_to_process import NoteMetaData
+from datasources.data.note_data import NoteData
+from datasources.data.note_to_visit_date import NoteToVisitDetails
 
 
 class NoteToGroupsMap(PolarDataSet):
@@ -61,7 +61,9 @@ class NoteDataAggregator:
 
 
 if __name__ == "__main__":
-    note_full_data_df: pd.DataFrame = NoteDataAggregator().append_metadata(NoteData().get())
+    note_full_data_df: pd.DataFrame = NoteDataAggregator().append_metadata(
+        NoteData().get()
+    )
     print(note_full_data_df.head())
     print(note_full_data_df.columns)
 

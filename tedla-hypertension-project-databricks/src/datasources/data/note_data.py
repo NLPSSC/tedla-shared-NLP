@@ -3,7 +3,7 @@ import os
 import polars as pl
 from typing import Callable
 
-from data_extract.datasources import PolarDataSet
+from datasources import PolarDataSet
 
 
 class NoteData(PolarDataSet):

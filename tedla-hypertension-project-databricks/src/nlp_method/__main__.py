@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()  # Reads .env from current working directory
 
 from nlp_method.app.cleanup import cleanup
-from data_extract.datasources.data.note_data import NoteData
+from datasources.data.note_data import NoteData
 from nlp_method.app.nlp_worker import create_nlp_workers
 from nlp_method.app.log_time import log_execution_time
 from nlp_method.notes.notes_iterator import NotesIterator

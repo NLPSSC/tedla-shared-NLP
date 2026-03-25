@@ -1,9 +1,7 @@
 from pathlib import Path
-from typing import Any, Generator
 
-import pandas as pd
 
-from data_extract.datasources import FullProjectDataSet
+from datasources import FullProjectDataSet
 
 
 class NoteGroupMap(FullProjectDataSet):

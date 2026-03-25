@@ -1,5 +1,5 @@
 import os
-from data_extract.datasources import PolarDataSet
+from datasources import PolarDataSet
 
 
 class NoteToVisitDetails(PolarDataSet):
