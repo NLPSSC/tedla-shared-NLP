@@ -47,7 +47,14 @@ def gc_processes(processes):
                 p.pid,
                 worker_join_timeout_seconds,
             )
-            p.join(timeout=60)
+            timeout = 300
+            logger.info(
+                "Waiting {} seconds for worker process #{} (pid={}) to terminate gracefully before forcefully killing it.",
+                timeout,
+                idx,
+                p.pid,
+            )
+            p.wait(timeout=timeout)
             p.terminate()
             failed_workers.append(idx)
             continue
