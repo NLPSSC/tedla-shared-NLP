@@ -94,8 +94,8 @@ def drain_queues(queue):
 
 
 def cleanup(queue, processes, result_dbs):
-    drain_queues(queue)
-
     gc_processes(processes)
+
+    drain_queues(queue)
 
     close_databases(result_dbs)

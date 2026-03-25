@@ -44,11 +44,19 @@ def create_nlp_workers(num_workers, queue) -> tuple[list[NLPWorker], list[mp.Pro
     # Create an event for each worker to signal when they have started
     worker_started_events = [mp.Event() for _ in range(num_workers)]
 
+    # One queue per worker so each child can send its result DB path back to
+    # the main process.  SimpleQueue is sufficient (single put, single get).
+    path_queues = [mp.SimpleQueue() for _ in range(num_workers)]
+
     # Initialize NLPWorker instances and assign them to processes
     nlp_workers: list[NLPWorker] = [
         nlp_worker
         for id in range(num_workers)
-        if (nlp_worker := NLPWorker(id, queue, worker_started_events[id]))
+        if (
+            nlp_worker := NLPWorker(
+                id, queue, worker_started_events[id], path_queues[id]
+            )
+        )
     ]
 
     processes: list[mp.Process] = assign_workers_to_processes(nlp_workers)

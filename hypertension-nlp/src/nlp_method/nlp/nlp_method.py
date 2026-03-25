@@ -1,5 +1,6 @@
 import os
 from typing import Generator, Any, Iterator, List
+import medspacy
 import spacy
 from spacy.tokens import Doc
 from medspacy.ner import TargetRule
@@ -8,6 +9,16 @@ from common.instance_logr_mixin import InstanceLogrMixin
 from common.worker_mixin import WorkerMixin
 from nlp_method.data.map_search_term_to_note_group import MapSearchTermToNoteGroup
 from nlp_method.notes import TARGET_ENTITY_LABEL
+from PyRuSH import PyRuSHSentencizer 
+
+import logging
+
+logging.getLogger("PyRuSH.PyRuSHSentencizer").setLevel(logging.WARNING)
+
+# import logging
+
+# Set the PyRuSH logger level to WARNING to suppress INFO/DEBUG logs
+# logging.getLogger('PyRuSH').setLevel(logging.WARNING)
 
 
 class NLPProcessor(WorkerMixin, InstanceLogrMixin):
@@ -25,8 +36,10 @@ class NLPProcessor(WorkerMixin, InstanceLogrMixin):
             raise ValueError("SPACY_MODEL environment variable not defined.")
         self._model: str = model
         self._map: MapSearchTermToNoteGroup = term_to_note_grp_map
-        nlp = spacy.load(self._model)
-        nlp.add_pipe("medspacy_target_matcher")
+        nlp = medspacy.load(self._model)
+
+        if "medspacy_target_matcher" not in nlp.pipe_names:
+            nlp.add_pipe("medspacy_target_matcher")
         target_matcher = nlp.get_pipe("medspacy_target_matcher")
         target_matcher.add(  # type: ignore
             [
@@ -34,7 +47,13 @@ class NLPProcessor(WorkerMixin, InstanceLogrMixin):
                 for search_term in term_to_note_grp_map.search_terms
             ]
         )
-        nlp.add_pipe("medspacy_context")  # This adds clinical negation
+        if "medspacy_context" not in nlp.pipe_names:
+            nlp.add_pipe("medspacy_context")  # This adds clinical negation
+
+        if "medspacy_pyrush" in nlp.pipe_names:
+            nlp.remove_pipe("medspacy_pyrush")
+            nlp.add_pipe("medspacy_pyrush", before="parser")
+
         self._nlp = nlp
         super().__init__(*args, **kwargs)
 

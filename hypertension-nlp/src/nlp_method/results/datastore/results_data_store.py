@@ -314,6 +314,7 @@ CREATE table consolidated_results (
             return
 
         def write_records(cursor: sqlite3.Cursor):
+            logger.info("Writing {} records to database for worker {}...", len(records), self.worker_id)
             insert_values = [
                 (
                     int(record.note_id),

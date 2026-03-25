@@ -5,6 +5,7 @@ from typing import Any, Generator, List
 import pandas as pd
 from spacy.tokens import Doc
 from spacy.tokens.span import Span
+from tqdm import tqdm
 
 from common.instance_logr_mixin import InstanceLogrMixin
 from common.worker_mixin import WorkerMixin
@@ -53,19 +54,20 @@ class NoteBatchProcessor(WorkerMixin, InstanceLogrMixin):
         doc: Doc
         start_time = time.time()
         all_results: List[ResultRecord] = []
-        
-        # Process the notes through the NLP pipeline and create result records for each identified entity of interest.
-        for doc, context in self._nlp_processor(note_iterator()):
+        with tqdm(total=len(note_batch_df), desc=f"Worker #{self.worker_id} processing notes") as pbar:
+            # Process the notes through the NLP pipeline and create result records for each identified entity of interest.
+            for doc, context in self._nlp_processor(note_iterator()):
 
-            records: List[ResultRecord] = self._assemble_result_records(doc, context)
-            if len(records) > 0:
-                all_results.extend(records)
+                records: List[ResultRecord] = self._assemble_result_records(doc, context)
+                if len(records) > 0:
+                    all_results.extend(records)
+                pbar.update(1)
 
-        self._writer(all_results)
+            self._writer(all_results)
 
-        self.log(
-            "info", "Finished processing notes in {} seconds", time.time() - start_time
-        )
+            self.log(
+                "info", "Finished processing notes in {} seconds", time.time() - start_time
+            )
 
     def get_results_db_path(self) -> Path:
         return self._writer.get_path()

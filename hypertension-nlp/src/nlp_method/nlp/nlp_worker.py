@@ -3,22 +3,23 @@ from pathlib import Path
 from nlp_method.nlp.metrics import MetricsTracking
 from nlp_method.nlp.initializer import initialize_nlp_processor
 from nlp_method.notes.note_batch_processor import NoteBatchProcessor
+from common.logr import filter_rush
 from loguru import logger
 
 # Time in seconds that worker processes will wait for new notes to process before
 # checking for termination signal. Adjust as needed based on expected time to process
 # a batch of notes.
-QUEUE_WAIT_TIME = 5  
+QUEUE_WAIT_TIME = 5
 
 
 class NLPWorker:
-    def __init__(self, id, queue, ready_signal):
+    def __init__(self, id, queue, ready_signal, path_queue):
         self._id = id
         self._queue = queue
         self._ready_signal = ready_signal
+        self._path_queue = path_queue
         self._results_db_path: Path | None = None
-        self._nlp_processor: NoteBatchProcessor = initialize_nlp_processor(self._id)
-        self._results_db_path = self._nlp_processor.get_results_db_path()
+        self._nlp_processor: NoteBatchProcessor | None = None
         self._complete: bool = False
 
     @property
@@ -27,9 +28,24 @@ class NLPWorker:
 
     def __call__(self):
         from queue import Empty
+        import sys
+
+        # Worker processes start fresh (Windows spawn) with loguru's default
+        # sink (stderr, DEBUG, no filter).  Replace it with a filtered sink so
+        # PyRuSH DEBUG noise is suppressed here just as in the main process.
+        logger.remove()
+        logger.add(sys.stderr, filter=filter_rush, level="DEBUG", enqueue=True)
 
         logger.info("Starting worker #{}...", self._id)
-        # Initialize inside the child process so resources are owned by it.
+        # Initialize inside the child process so resources are owned by it,
+        # and so that spaCy/medSpaCy extension attributes are registered in
+        # this process (not the parent process where __init__ ran).
+        self._nlp_processor = initialize_nlp_processor(self._id)
+
+        # Send the result DB path to the main process via the path queue BEFORE
+        # signalling ready, so the path is available as soon as the main process
+        # unblocks from validate_workers_started.
+        self._path_queue.put(self._nlp_processor.get_results_db_path())
 
         # Signal ready AFTER initialization so the main process only proceeds
         # once the worker is truly able to consume work.
@@ -71,8 +87,8 @@ class NLPWorker:
 
     def get_results_db_path(self) -> Path:
         if self._results_db_path is None:
-            raise RuntimeError(
-                f"Worker #{self._id} has not been started yet "
-                "(get_results_db_path called before __call__)."
-            )
-        return self._results_db_path
+            # Block until the child process puts the path on the queue (it does
+            # so before setting the ready signal, so this should never block if
+            # called after create_nlp_workers returns).
+            self._results_db_path = self._path_queue.get()
+        return self._results_db_path  # type: ignore

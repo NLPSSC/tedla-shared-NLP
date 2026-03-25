@@ -5,11 +5,22 @@ from loguru import logger
 from pathlib import Path
 from typing import Literal
 
+import logging
+
+log = logging.getLogger("pytorch_lightning")
+log.propagate = False
+log.setLevel(logging.ERROR)
+
 logger.remove()
+
 
 TMP_LOGS_PATH = "/tmp/logs"
 LOGS_FOLDER = Path(os.getenv("LOG_PATH", TMP_LOGS_PATH))
 LOGS_FOLDER.mkdir(parents=True, exist_ok=True)
+
+
+def filter_rush(record):
+    return record["name"] is None or not record["name"].startswith("PyRuSH")
 
 
 def get_max_logs_to_keep() -> int:
@@ -49,9 +60,9 @@ def _init_log(file_name: str, *levels: Literal["INFO", "ERROR"]):
 
         _trim_logs(level)
 
-        logger.add(processing_log_path, level=level, enqueue=True)
+        logger.add(processing_log_path, filter=filter_rush, level=level, enqueue=True)
 
-    logger.add(sys.stderr, level="DEBUG", enqueue=True)
+    logger.add(sys.stderr, filter=filter_rush, level="DEBUG", enqueue=True)
 
 
 def _trim_logs(level):

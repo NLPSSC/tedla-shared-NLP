@@ -2,6 +2,8 @@ import sqlite3
 from pathlib import Path
 import argparse
 
+COMBINED_OUTPUT_FOLDER = "combined_output"
+
 
 def create_destination_table(
     results_table_name,
@@ -23,27 +25,15 @@ def create_destination_table(
     return expected_table_columns
 
 
-if __name__ == "__main__":
-    """
-    Output is produced in a series of SQLite databases, one per worker process.
-    This script combines the output into a single database and produces some summary statistics.
-    """
+def combine_databases(
+    create_destination_table, individual_results_folder, combined_output_path
+):
+    results_folder = Path(individual_results_folder)
+    combined_db_path = Path(combined_output_path)
 
-    # parser = argparse.ArgumentParser(description="Combine SQLite result databases into one.")
-    # parser.add_argument("--input", required=True, help="Path to the folder containing result .db files")
-    # parser.add_argument("--output", required=True, help="Path to the combined output .db file")
-    # args = parser.parse_args()
+    combined_db_path.mkdir(parents=True, exist_ok=True)
 
-    # results_folder = Path(args.input)
-    # combined_db_path = Path(args.output)
-
-    results_folder = Path(
-        r"Z:\_\active\nlpssc\Tedla - VUMC\nlp_Tdla\tedla-shared-NLP\output\imported_output\results\results_20260325_103310"
-    )
-    combined_db_path = Path(
-        r"Z:\_\active\nlpssc\Tedla - VUMC\nlp_Tdla\tedla-shared-NLP\output\imported_output\results\combined"
-    ) / f"combined_{results_folder.name}.db"
-
+    combined_db_path = combined_db_path / f"combined_{results_folder.name}.db"
 
     results_dbs = list(results_folder.glob("*.db"))
 
@@ -55,11 +45,17 @@ if __name__ == "__main__":
     results_counts = {}
 
     # Create the combined database and the results table if it doesn't exist
-    with sqlite3.connect(combined_db_path) as combined_conn:
+
+    try:
+        combined_conn = sqlite3.connect(combined_db_path)
+    except sqlite3.OperationalError as e:
+        print(f"Error creating combined database at {combined_db_path}: {e}")
+        exit(1)
+
+    with combined_conn:
         combined_cursor = combined_conn.cursor()
         # Get the schema from the first results db
         with sqlite3.connect(results_dbs[0]) as first_conn:
-
             for results_idx, results_db in enumerate(results_dbs):
                 results_counts[results_idx] = 0
                 with sqlite3.connect(results_db) as results_conn:
@@ -89,14 +85,71 @@ if __name__ == "__main__":
                         )
                         combined_conn.commit()
 
-
     total_rows_from_results = sum(results_counts.values())
     with sqlite3.connect(combined_db_path) as combined_conn:
         combined_cursor = combined_conn.cursor()
         combined_cursor.execute(f"SELECT COUNT(*) FROM {results_table_name}")
         total_rows_in_combined = combined_cursor.fetchone()[0]
-    
+
     if total_rows_from_results != total_rows_in_combined:
-        print(f"Row count mismatch! Total rows from results: {total_rows_from_results}, total rows in combined: {total_rows_in_combined}")
+        print(
+            f"Row count mismatch! Total rows from results: {total_rows_from_results}, total rows in combined: {total_rows_in_combined}"
+        )
     else:
         print(f"Row count matches! Total rows: {total_rows_in_combined}")
+
+
+if __name__ == "__main__":
+    """
+    Output is produced in a series of SQLite databases, one per worker process.
+    This script combines the output into a single database and produces some summary statistics.
+    """
+
+    parser = argparse.ArgumentParser(
+        description="Combine SQLite result databases into one."
+    )
+    parser.add_argument(
+        "--input", required=True, help="Path to the folder containing result .db files"
+    )
+    parser.add_argument(
+        "--output",
+        required=False,
+        help=(
+            f"Path to the folder for the combined output .db file. If not provided, "
+            f'a "{COMBINED_OUTPUT_FOLDER}" folder will be created in the input folder.'
+        ),
+    )
+    args = parser.parse_args()
+
+    if not args.input:
+        print("Error: --input argument is required.")
+        parser.print_help()
+        exit(1)
+
+    individual_results_folder = Path(args.input)
+    if individual_results_folder.exists() and individual_results_folder.is_dir():
+        print(f"Found input folder: {individual_results_folder}")
+    else:
+        print(
+            f"Input folder {individual_results_folder} does not exist or is not a directory."
+        )
+        exit(1)
+
+    if args.output:
+        combined_output_path = Path(args.output)
+        if not combined_output_path.exists():
+            print(
+                f"Output path {combined_output_path} does not exist. It will be created."
+            )
+        elif not combined_output_path.is_dir():
+            print(f"Output path {combined_output_path} exists but is not a directory.")
+            exit(1)
+    else:
+
+        combined_output_path = individual_results_folder / COMBINED_OUTPUT_FOLDER
+        combined_output_path.mkdir(parents=True, exist_ok=True)
+        print(f"No output path provided. Using default: {combined_output_path}")
+
+    combine_databases(
+        create_destination_table, individual_results_folder, combined_output_path
+    )

@@ -1,6 +1,7 @@
 from pathlib import Path
 from time import time
 import multiprocessing as mp
+import os
 from dotenv import load_dotenv
 
 load_dotenv()  # Reads .env from current working directory
@@ -35,11 +36,14 @@ def main(
     logger.info("{} NLP worker processes created.", num_workers)
 
     # Iterate through notes in batches and put them in the queue for workers to process
+    notes_loaded = 0
     for notes_df in NotesIterator(
         note_data,
         note_iterator_batch_size=note_iterator_batch_size,
         debug_max_iterations=num_test_iterations,
     ):
+        notes_loaded += len(notes_df)
+        logger.info("Loaded {} notes so far...", notes_loaded)
         queue.put(notes_df)
 
     # Send sentinel values to signal workers to stop
@@ -71,9 +75,9 @@ if __name__ == "__main__":
     note_data: NoteData = NoteData(filter_to_datasets=None)
     nlp_config = {
         "num_test_iterations": None,
-        "note_iterator_batch_size": 5000,
+        "note_iterator_batch_size": int(os.getenv("NOTE_ITERATOR_BATCH_SIZE", 1000)),  # type: ignore
         "max_queue_size": 128,
-        "num_workers": 32,
+        "num_workers": int(os.getenv("NUM_WORKER_PROCESSES", 8)),
         "start_time": time(),
     }
 
