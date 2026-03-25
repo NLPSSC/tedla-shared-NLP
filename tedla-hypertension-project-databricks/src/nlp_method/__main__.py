@@ -3,26 +3,14 @@ from time import time
 import multiprocessing as mp
 from dotenv import load_dotenv
 
-from data_extract.datasources.data.note_data import NoteData
-from nlp_method.app.nlp_worker import create_nlp_workers
-from nlp_method.app.main_methods import log_execution_time
-from nlp_method.app.main_methods import cleanup
-
 load_dotenv()  # Reads .env from current working directory
 
-import os
+from nlp_method.app.cleanup import cleanup
+from data_extract.datasources.data.note_data import NoteData
+from nlp_method.app.nlp_worker import create_nlp_workers
+from nlp_method.app.log_time import log_execution_time
 from nlp_method.notes.notes_iterator import NotesIterator
 from loguru import logger
-
-WORKER_READY_TIMEOUT_SECONDS = os.getenv("WORKER_READY_TIMEOUT_SECONDS")
-if WORKER_READY_TIMEOUT_SECONDS is None:
-    raise ValueError("WORKER_READY_TIMEOUT_SECONDS environment variable must be set.")
-worker_ready_timeout_seconds = int(WORKER_READY_TIMEOUT_SECONDS)
-
-WORKER_JOIN_TIMEOUT_SECONDS = os.getenv("WORKER_JOIN_TIMEOUT_SECONDS")
-if WORKER_JOIN_TIMEOUT_SECONDS is None:
-    raise ValueError("WORKER_JOIN_TIMEOUT_SECONDS environment variable must be set.")
-worker_join_timeout_seconds = int(WORKER_JOIN_TIMEOUT_SECONDS)
 
 
 def main(
@@ -40,7 +28,7 @@ def main(
 
     logger.info("Creating {} NLP worker processes...", num_workers)
 
-    # Create NLP worker processes, which monitors the queue for new notes to process and processes them in parallel. 
+    # Create NLP worker processes, which monitors the queue for new notes to process and processes them in parallel.
     # Each worker will signal when it is ready before the main process continues to put notes in the queue.
     nlp_workers, processes = create_nlp_workers(num_workers, queue)
 
@@ -96,10 +84,10 @@ if __name__ == "__main__":
 
     main(
         note_data=note_data,
-        num_workers=nlp_config["num_workers"],
-        max_queue_size=nlp_config["max_queue_size"],
-        num_test_iterations=nlp_config["num_test_iterations"],
-        note_iterator_batch_size=nlp_config["note_iterator_batch_size"],
+        num_workers=nlp_config["num_workers"],  # type: ignore
+        max_queue_size=nlp_config["max_queue_size"],  # type: ignore
+        num_test_iterations=nlp_config["num_test_iterations"],  # type: ignore
+        note_iterator_batch_size=nlp_config["note_iterator_batch_size"],  # type: ignore
     )
     end_time = time()
     nlp_config["end_time"] = end_time

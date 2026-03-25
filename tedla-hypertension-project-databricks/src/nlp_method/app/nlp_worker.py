@@ -1,13 +1,14 @@
-from loguru import logger
-
-import multiprocessing as mp
-
-from nlp_method.__main__ import worker_ready_timeout_seconds
-
-
+import os
 from tqdm import tqdm
-
+from loguru import logger
+import multiprocessing as mp
 from nlp_method.nlp.nlp_worker import NLPWorker
+
+
+WORKER_READY_TIMEOUT_SECONDS = os.getenv("WORKER_READY_TIMEOUT_SECONDS")
+if WORKER_READY_TIMEOUT_SECONDS is None:
+    raise ValueError("WORKER_READY_TIMEOUT_SECONDS environment variable must be set.")
+worker_ready_timeout_seconds = int(WORKER_READY_TIMEOUT_SECONDS)
 
 
 def validate_workers_started(worker_started_events, processes):
