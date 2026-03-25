@@ -2,7 +2,7 @@
     "git.ignoreLimitWarning": true,
     "jupyter.interactiveWindow.cellMarker.codeRegex": "^# COMMAND ----------|^# Databricks notebook source|^(#\\s*%%|#\\s*\\<codecell\\>|#\\s*In\\[\\d*?\\]|#\\s*In\\[ \\])",
     "jupyter.interactiveWindow.cellMarker.default": "# COMMAND ----------",
-    "databricks.connection.default.localSyncFolder": "/export/home/westerd/_/tedla-hypertension-project-databricks/src",
+    "databricks.connection.default.localSyncFolder": "/export/home/westerd/_/hypertension-nlp/src",
     "databricks.workspace.root": "",
     "python-envs.pythonProjects": [
         {

@@ -26,9 +26,7 @@ from tkinter import filedialog, messagebox
 # Constants
 # ---------------------------------------------------------------------------
 
-PROJECT_ROOT = str(
-    Path(__file__).resolve().parent / "tedla-hypertension-project-databricks"
-)
+PROJECT_ROOT = str(Path(__file__).resolve().parent / "hypertension-nlp")
 SRC_DIR = str(Path(PROJECT_ROOT) / "src")
 
 SEARCH_TERMS = [
