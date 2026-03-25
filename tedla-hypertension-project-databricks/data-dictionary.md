@@ -16,9 +16,7 @@
         vertical-align: top;
     }
     
-    table tr:nth-child(even) td {
-        background-color: #f5f5f5;
-    }
+    
     table tr:nth-child(odd) td {
         background-color: transparent;
     }
