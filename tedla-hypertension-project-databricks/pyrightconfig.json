@@ -1,0 +1,32 @@
+{
+    "include": [
+        "src",
+        "tests"
+    ],
+    "exclude": [
+        "**/envs/**",
+        "**/__pycache__/**",
+        "**/.ipynb_checkpoints/**",
+        "**/.pytest_cache/**",
+        "**/.git/**",
+        "**/node_modules/**",
+        "envs/",
+        "__pycache__/",
+        ".ipynb_checkpoints/",
+        ".pytest_cache/",
+        ".git/",
+        "dist/",
+        "build/",
+        ".venv"
+    ],
+    "ignore": [
+        "**/node_modules/**",
+        "**/.git/**",
+        "**/envs/**",
+        "**/__pycache__/**",
+        "**/.ipynb_checkpoints/**",
+        "**/.pytest_cache/**",
+        "**/dist/**",
+        "**/build/**"
+    ]
+}

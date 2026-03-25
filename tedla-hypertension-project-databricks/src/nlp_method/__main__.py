@@ -1,0 +1,107 @@
+from pathlib import Path
+from time import time
+import multiprocessing as mp
+from dotenv import load_dotenv
+
+from data_extract.datasources.data.note_data import NoteData
+from nlp_method.app.nlp_worker import create_nlp_workers
+from nlp_method.app.main_methods import log_execution_time
+from nlp_method.app.main_methods import cleanup
+
+load_dotenv()  # Reads .env from current working directory
+
+import os
+from nlp_method.notes.notes_iterator import NotesIterator
+from loguru import logger
+
+WORKER_READY_TIMEOUT_SECONDS = os.getenv("WORKER_READY_TIMEOUT_SECONDS")
+if WORKER_READY_TIMEOUT_SECONDS is None:
+    raise ValueError("WORKER_READY_TIMEOUT_SECONDS environment variable must be set.")
+worker_ready_timeout_seconds = int(WORKER_READY_TIMEOUT_SECONDS)
+
+WORKER_JOIN_TIMEOUT_SECONDS = os.getenv("WORKER_JOIN_TIMEOUT_SECONDS")
+if WORKER_JOIN_TIMEOUT_SECONDS is None:
+    raise ValueError("WORKER_JOIN_TIMEOUT_SECONDS environment variable must be set.")
+worker_join_timeout_seconds = int(WORKER_JOIN_TIMEOUT_SECONDS)
+
+
+def main(
+    note_data: NoteData,
+    num_workers: int,
+    max_queue_size: int,
+    note_iterator_batch_size: int,
+    num_test_iterations: int | None = None,
+):
+
+    total_start_time = time()
+
+    # Create a queue with max size 15
+    queue = mp.Queue(maxsize=max_queue_size)
+
+    logger.info("Creating {} NLP worker processes...", num_workers)
+
+    # Create NLP worker processes, which monitors the queue for new notes to process and processes them in parallel. 
+    # Each worker will signal when it is ready before the main process continues to put notes in the queue.
+    nlp_workers, processes = create_nlp_workers(num_workers, queue)
+
+    logger.info("{} NLP worker processes created.", num_workers)
+
+    # Iterate through notes in batches and put them in the queue for workers to process
+    for notes_df in NotesIterator(
+        note_data,
+        note_iterator_batch_size=note_iterator_batch_size,
+        debug_max_iterations=num_test_iterations,
+    ):
+        queue.put(notes_df)
+
+    # Send sentinel values to signal workers to stop
+    for _ in range(len(processes)):
+        queue.put(None)
+
+    # result_dbs -> list of sqlite dbs created by each worker process to store results before they are merged into a final output
+    result_dbs: list[Path] = [x.get_results_db_path() for x in nlp_workers]
+
+    # Wait for all processes to complete
+
+    cleanup(queue, processes, result_dbs)
+
+    total_time = time() - total_start_time
+    logger.success(
+        "Completed in {} secs / {} mins / {} hours",
+        total_time,
+        total_time / 60,
+        total_time / 3600,
+    )
+
+
+if __name__ == "__main__":
+
+    from common.logr import initialize_logging
+
+    initialize_logging("tedla-hypertension-nlp")
+
+    note_data: NoteData = NoteData(filter_to_datasets=None)
+    nlp_config = {
+        "num_test_iterations": None,
+        "note_iterator_batch_size": 5000,
+        "max_queue_size": 128,
+        "num_workers": 32,
+        "start_time": time(),
+    }
+
+    logger.info(
+        "Settings: {}",
+        ", ".join([f"{k}: {v}" for k, v in nlp_config.items()]),
+    )
+
+    main(
+        note_data=note_data,
+        num_workers=nlp_config["num_workers"],
+        max_queue_size=nlp_config["max_queue_size"],
+        num_test_iterations=nlp_config["num_test_iterations"],
+        note_iterator_batch_size=nlp_config["note_iterator_batch_size"],
+    )
+    end_time = time()
+    nlp_config["end_time"] = end_time
+
+    log_execution_time(nlp_config["start_time"], end_time)

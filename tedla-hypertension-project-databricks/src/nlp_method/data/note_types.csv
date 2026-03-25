@@ -1,0 +1,9 @@
+note_type_id,note_type
+2,notes_communication_encounter
+5,notes_emergency_department
+3,notes_discharge_summary
+4,notes_ecg_impression
+8,notes_problem_lists
+1,notes_admissions
+7,notes_outpatient
+6,notes_inpatient

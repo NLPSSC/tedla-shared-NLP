@@ -1,0 +1,117 @@
+search_term_to_note_groups_id,search_term,notes_admissions,notes_communication_encounter,notes_discharge_summary,notes_ecg_impression,notes_emergency_department,notes_inpatient,notes_outpatient,notes_problem_lists
+1,heart failure with reduced ejection fraction,1,0,1,1,1,1,1,1
+2,hfref,1,0,1,1,1,1,1,1
+3,heart failure with preserved ejection fraction,1,0,1,1,1,1,1,1
+4,hfpef,1,0,1,1,1,1,1,1
+5,hyponatremia,1,1,1,0,1,1,1,1
+6,low sodium,1,1,1,0,1,1,1,1
+7,low na,1,1,1,0,1,1,1,1
+8,hypokalemia,1,1,1,0,1,1,1,1
+9,lower k,1,1,1,0,1,1,1,1
+10,hypo k,1,1,1,0,1,1,1,1
+11,low k,1,1,1,0,1,1,1,1
+12,hyperkalemia,1,1,1,0,1,1,1,1
+13,hyper k,1,1,1,0,1,1,1,1
+14,hyperuricemia,1,1,1,0,1,1,1,1
+15,ua high,1,1,1,0,1,1,1,1
+16,hyper ua,1,1,1,0,1,1,1,1
+17,uric acid elevated,1,1,1,0,1,1,1,1
+18,hypercalcemia,1,1,1,0,1,1,1,1
+19,hyper ca,1,1,1,0,1,1,1,1
+20,high ca,1,1,1,0,1,1,1,1
+21,high calcium,1,1,1,0,1,1,1,1
+22,gout,1,0,1,0,0,1,1,1
+23,gouty flare,1,0,1,0,0,1,1,1
+24,impotence,1,1,1,0,0,1,1,1
+25,ed,1,1,1,0,0,1,1,1
+26,erectile disfunction,1,1,1,0,0,1,1,1
+27,dry cough,1,1,1,0,0,1,1,1
+28,nonproductive cough,1,1,1,0,0,1,1,1
+29,angioedema,1,1,1,0,0,1,1,1
+30,lip swelling,1,1,1,0,0,1,1,1
+31,tongue swelling,1,1,1,0,0,1,1,1
+32,face swelling,1,1,1,0,0,1,1,1
+33,pregnancy,1,1,1,0,0,1,1,1
+34,positive hgc,1,1,1,0,0,1,1,1
+35,pregnant,1,1,1,0,0,1,1,1
+36,flushing,1,1,1,0,1,1,1,1
+37,facial erythema,1,1,1,0,1,1,1,1
+38,gingival hypertrophy,1,1,1,0,0,1,1,1
+39,gum swelling,1,1,1,0,0,1,1,1
+40,tachycardia,1,1,1,1,1,1,1,1
+41,increased heart rate,1,1,1,1,1,1,1,1
+42,inc hr,1,1,1,1,1,1,1,1
+43,elevated hr,1,1,1,1,1,1,1,1
+44,bradycardia,1,1,1,1,1,1,1,1
+45,low hr,1,1,1,1,1,1,1,1
+46,decreased heart rate,1,1,1,1,1,1,1,1
+47,headache,1,1,1,0,1,1,1,1
+48,h/a,1,1,1,0,1,1,1,1
+49,ha,1,1,1,0,1,1,1,1
+50,constipation,1,1,1,0,1,1,1,1
+51,parasomnia,1,1,1,0,1,1,1,1
+52,vivid dreams,1,1,1,0,1,1,1,1
+53,nightmare,1,1,1,0,1,1,1,1
+54,insomnia,1,1,1,0,0,1,1,1
+55,poor sleep,1,1,1,0,0,1,1,1
+56,hallucinations,1,1,1,0,0,1,1,1
+57,fatigue,1,1,1,0,0,1,1,1
+58,tired,1,1,1,0,0,1,1,1
+59,dizziness,1,1,1,0,1,1,1,1
+60,light headedness,1,1,1,0,1,1,1,1
+61,nausea,1,1,1,0,1,1,1,1
+62,vomiting,1,1,1,0,1,1,1,1
+63,n/v,1,1,1,0,1,1,1,1
+64,weight gain,1,1,1,0,0,1,1,1
+65,increased weight,1,1,1,0,0,1,1,1
+66,inc. wt.,1,1,1,0,0,1,1,1
+67,shortness of breath,1,1,1,0,1,1,1,1
+68,sob,1,1,1,0,1,1,1,1
+69,doe,1,1,1,0,1,1,1,1
+70,dyspnea on exertion,1,1,1,0,1,1,1,1
+71,sick sinus syndrome,1,1,1,0,1,1,1,1
+72,decreased libido,1,1,1,0,0,1,1,1
+73,dec. libido,1,1,1,0,0,1,1,1
+74,sexual side effect,1,1,1,0,0,1,1,1
+75,sexual se,1,1,1,0,0,1,1,1
+76,gynecomastia,1,1,1,0,0,1,1,1
+77,breast enlargement,1,1,1,0,0,1,1,1
+78,mastodynia,1,1,1,0,0,1,1,1
+79,breast pain,1,1,1,0,0,1,1,1
+80,orthostatic hypotension,1,1,1,0,1,1,1,1
+81,low bp,1,1,1,0,1,1,1,1
+82,low blood pressure,1,1,1,0,1,1,1,1
+83,syncope,1,1,1,0,1,1,1,1
+84,passed out,1,1,1,0,1,1,1,1
+85,falling out,1,1,1,0,1,1,1,1
+86,somnolence,1,1,1,0,1,1,1,1
+87,drowsiness,1,1,1,0,1,1,1,1
+88,excessive sleepiness,1,1,1,0,1,1,1,1
+89,dryness of the mouth,1,1,1,0,0,1,1,1
+90,dry mouth,1,1,1,0,0,1,1,1
+91,parkinsonian symptoms,1,1,1,0,0,1,1,1
+92,parkinsonism,1,1,1,0,0,1,1,1
+93,symptoms of parkinson,1,1,1,0,0,1,1,1
+94,hyperprolactinemia,1,1,1,0,0,1,1,1
+95,increased prolactin,1,1,1,0,0,1,1,1
+96,hepatotoxicity,1,1,1,0,1,1,1,1
+97,liver toxicity,1,1,1,0,1,1,1,1
+98,increased lfts,1,1,1,0,1,1,1,1
+99,increased liver function tests,1,1,1,0,1,1,1,1
+100,lupus-like syndrome,1,1,1,0,0,1,1,1
+101,positive ana,1,1,1,0,0,1,1,1
+102,lupus symptom,1,1,1,0,0,1,1,1
+103,lupus sx,1,1,1,0,0,1,1,1
+104,hirsutism,1,1,1,0,0,1,1,1
+105,excessive facial hair,1,1,1,0,0,1,1,1
+106,urinary urgency,1,1,1,0,0,1,1,1
+107,urgency,1,1,1,0,0,1,1,1
+108,medication adherence,1,1,1,0,0,1,1,1
+109,weight reduction,1,1,1,0,0,1,1,1
+110,weight loss,1,1,1,0,0,1,1,1
+111,increase in exercise,1,1,1,0,0,1,1,1
+112,physical activity,1,1,1,0,0,1,1,1
+113,low salt  intake,1,1,1,0,0,1,1,1
+114,low sodium,1,1,1,0,0,1,1,1
+115,low alcohol intake,1,1,1,0,0,1,1,1
+116,ascvd score,1,1,1,0,0,1,1,1
