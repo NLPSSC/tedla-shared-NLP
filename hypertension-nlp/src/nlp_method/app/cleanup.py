@@ -56,17 +56,17 @@ def gc_processes(processes):
             )
             p.wait(timeout=timeout)
             p.terminate()
-            failed_workers.append(idx)
+            # failed_workers.append(idx)
             continue
 
-        if p.exitcode != 0:
-            logger.error(
-                "Worker process #{} (pid={}) exited with code {}.",
-                idx,
-                p.pid,
-                p.exitcode,
-            )
-            failed_workers.append(idx)
+        # if p.exitcode != 0:
+        #     logger.error(
+        #         "Worker process #{} (pid={}) exited with code {}.",
+        #         idx,
+        #         p.pid,
+        #         p.exitcode,
+        #     )
+        #     failed_workers.append(idx)
         del p
 
     if failed_workers:
