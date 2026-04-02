@@ -7,7 +7,7 @@ class NoteToVisitDetails(PolarDataSet):
     def __init__(self) -> None:
         path = os.getenv(
             "NOTE_TO_VISIT_DATE_PATH",
-            "/var/nfs_share/workspaces/ciphi/westerd/tedla/tedla/vw_note_to_visit_date_parquet/part-00000-tid-9007553038768159611-d9ac5572-19a4-4313-9f19-2bb513de211d-3663-1-c000.snappy.parquet",
+            "tedla/tedla/vw_note_to_visit_date_parquet/part-00000-tid-9007553038768159611-d9ac5572-19a4-4313-9f19-2bb513de211d-3663-1-c000.snappy.parquet",
         )
         super().__init__(path)
 

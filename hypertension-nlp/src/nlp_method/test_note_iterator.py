@@ -1,7 +1,7 @@
 from time import time
 from dotenv import load_dotenv
 
-load_dotenv("/home/westerd/_/research_projects/tedla-hypertension/src/nlp_method/.env")
+load_dotenv()
 from datasources.data.note_data import NoteData
 from nlp_method.notes.notes_iterator import NotesIterator
 

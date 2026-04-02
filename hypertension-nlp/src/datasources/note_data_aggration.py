@@ -11,10 +11,8 @@ from datasources.data.note_to_visit_date import NoteToVisitDetails
 class NoteToGroupsMap(PolarDataSet):
 
     def __init__(self) -> None:
-        path = os.getenv(
-            "NOTE_TO_GROUPS_MAP_PATH",
-            "/var/nfs_share/workspaces/ciphi/westerd/tedla/tedla/note_id_to_group_membership/note_to_groups_map.parquet",
-        )
+        path = os.getenv("NOTE_TO_GROUPS_MAP_PATH")
+        raise ValueError("Environment variable NOTE_TO_GROUPS_MAP_PATH is not set.")
         super().__init__(path)
 
     def get(self) -> pl.DataFrame:

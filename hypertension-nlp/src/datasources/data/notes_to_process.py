@@ -7,7 +7,7 @@ class NotesToProcess(IterableProjectDataSet):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(
-            source_folder="/var/nfs_share/workspaces/ciphi/westerd/tedla/tedla/notes_to_process_parquet",
+            source_folder="tedla/tedla/notes_to_process_parquet",
             *args,
             **kwargs,
         )

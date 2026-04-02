@@ -9,7 +9,7 @@ class NoteGroupMap(FullProjectDataSet):
     def __init__(self, *args, **kwargs) -> None:
 
         super().__init__(
-            source_folder="/var/nfs_share/workspaces/ciphi/westerd/tedla/tedla/note_group_map_parquet",
+            source_folder="tedla/tedla/note_group_map_parquet",
             *args,
             **kwargs,
         )
