@@ -17,7 +17,7 @@ charset-normalizer==3.4.4
 click==8.2.1
 cloudpathlib==0.23.0
 cloudpickle==3.1.2
-colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1733218098505/work
+colorama
 comm==0.2.3
 confection==0.1.5
 cymem==2.0.13
@@ -29,7 +29,7 @@ decorator==5.2.1
 defusedxml==0.7.1
 distributed==2025.11.0
 duckdb==1.4.2
-en_core_web_sm @ file:///home/westerd/_/research_projects/tedla-hypertension/.models/en_core_web_sm-3.7.1.tar.gz#sha256=1075c2aa2bc2fee105ab6e90a01a5d1a428c9f5b20a1fa003dc2cb6a438d295e
+en_core_web_sm
 executing==2.2.1
 fastjsonschema==2.21.2
 filelock==3.20.0

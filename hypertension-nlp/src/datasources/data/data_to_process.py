@@ -15,7 +15,6 @@ class NoteMetaData(PolarDataSet):
             )
 
         super().__init__(
-            # "/var/nfs_share/workspaces/ciphi/westerd/tedla/tedla/data_to_process_parquet/part-00000-tid-1560234927860256002-27013ef4-6573-482b-9db9-f0e8b30f0d98-115-1-c000.snappy.parquet",
             data_to_process_dataset
         )
 

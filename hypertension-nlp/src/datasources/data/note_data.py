@@ -17,7 +17,6 @@ class NoteData(PolarDataSet):
             raise ValueError("NOTE_DATA_LOCATION environment variable must be set.")
         if "*" in note_data_location:
             note_parquet_folders: list[str] = glob(
-                # "/var/nfs_share/workspaces/ciphi/westerd/tedla/tedla/note_data_*_parquet"
                 note_data_location
             )
         else:
