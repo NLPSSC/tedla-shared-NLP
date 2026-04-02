@@ -6,7 +6,7 @@ class CohortData(FullProjectDataSet):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(
-            source_folder="/var/nfs_share/workspaces/ciphi/westerd/tedla/tedla/cohort_parquet",
+            source_folder="tedla/tedla/cohort_parquet",
             *args,
             **kwargs,
         )

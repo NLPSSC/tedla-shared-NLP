@@ -17,10 +17,9 @@ class NoteGroupToTermMap(PandasDataSet):
     }
 
     def __init__(self) -> None:
-        path = os.getenv(
-            "NOTE_GROUP_TO_TERM_PATH",
-            "/var/nfs_share/workspaces/ciphi/westerd/tedla/tedla/note_group_to_term_parquet/part-00000-tid-9122224030368219261-69b4115d-c0d4-409f-aaeb-fabe8b40831a-7387-1-c000.snappy.parquet",
-        )
+        path = os.getenv("NOTE_GROUP_TO_TERM_PATH")
+        if path is None:
+            raise ValueError("Environment variable NOTE_GROUP_TO_TERM_PATH is not set.")
         super().__init__(
             path,
             col_map=NoteGroupToTermMap.col_maps,

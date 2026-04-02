@@ -1,5 +1,7 @@
 # Hyptertension Term Search with NLP
 
+GitHub: https://github.com/NLPSSC/tedla-shared-NLP
+
 Documentation for this tool's use can be found in [TEDLA_Pipeline_Documentation.pdf](TEDLA_Pipeline_Documentation.pdf).
 
 <img src="./resources/initial.png" alt="Opening Screen" width="55%">
