@@ -1,20 +1,20 @@
-from pathlib import Path
 import time
+from pathlib import Path
 from typing import Any, Generator, List
 
 import pandas as pd
-from spacy.tokens import Doc
-from spacy.tokens.span import Span
-from tqdm import tqdm
-
 from common.instance_logr_mixin import InstanceLogrMixin
 from common.worker_mixin import WorkerMixin
-from nlp_method.data.map_search_term_to_note_group import MapSearchTermToNoteGroup
+from loguru import logger
+from nlp_method.data.map_search_term_to_note_group import \
+    MapSearchTermToNoteGroup
 from nlp_method.nlp.nlp_method import NLPProcessor
 from nlp_method.notes import TARGET_ENTITY_LABEL, WINDOW_SIZE
 from nlp_method.results.result_record import BaseData, ResultRecord
 from nlp_method.results.writer_base import WriterBase
-from loguru import logger
+from spacy.tokens import Doc
+from spacy.tokens.span import Span
+from tqdm import tqdm
 
 
 class NoteBatchProcessor(WorkerMixin, InstanceLogrMixin):
@@ -117,13 +117,22 @@ class NoteBatchProcessor(WorkerMixin, InstanceLogrMixin):
                 raise RuntimeError(
                     f"Search term '{search_term}' not found in window text: '{window_text}'"
                 )
-            
+
+            from datetime import date
+
+            import pandas as pd
+            lb_date = date(2018, 1, 1)
+            if search_term.lower().strip() in ['heart failure with reduced ejection fraction','hfref','heart failure with preserved ejection fraction','hfpef']:
+                lb_date = date(2010, 1, 1)
+
+            if base_data.note_date < pd.Timestamp(lb_date):
+                logger.debug('test')
+                pass
 
             is_patient_communication: bool = base_data.is_patient_communication
             is_note_within_visit: bool = base_data.is_note_within_visit
 
-            records.append(
-                ResultRecord(
+            result_record = ResultRecord(
                     batch_group=base_data.batch_group,
                     note_id=base_data.note_id,
                     person_id=base_data.person_id,
@@ -146,6 +155,9 @@ class NoteBatchProcessor(WorkerMixin, InstanceLogrMixin):
                     entity_start_offset=entity_of_interest.start_char,
                     entity_end_offset=entity_of_interest.end_char,
                 )
+    
+            records.append(
+                result_record
             )
         return records
 

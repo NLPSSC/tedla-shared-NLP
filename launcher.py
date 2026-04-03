@@ -601,6 +601,8 @@ def import_notes_file(file_path, output_folder, log_fn=print):
     # Normalize column names
     df.columns = [c.strip().lower().replace(" ", "_") for c in df.columns]
 
+    required_columns = {"note_text", "note_id", "person_id", "note_date"}
+
     if "note_text" not in df.columns:
         raise ValueError(
             "File must have a 'note_text' column containing the clinical note text."
@@ -654,13 +656,13 @@ def import_notes_file(file_path, output_folder, log_fn=print):
     meta = df[["note_id", "person_id", "note_date"]].copy()
     meta["note_id"] = meta["note_id"].astype("int64")
     meta["person_id"] = meta["person_id"].astype("int64")
-    meta["x_part_num"] = 1
-    meta["x_uniq"] = [str(900_000 + i) for i in range(n)]
-    meta["visit_occurrence_id"] = [300_000 + i for i in range(n)]
-    meta["is_patient_communication"] = False
-    meta["note_within_visit"] = True
+    meta["x_part_num"] = df["x_part_num"]
+    meta["x_uniq"] = df["x_uniq"]
+    meta["visit_occurrence_id"] = df["visit_occurrence_id"]
+    meta["is_patient_communication"] = df["is_patient_communication"]
+    meta["note_within_visit"] = df["note_within_visit"]
     meta["note_date"] = pd.to_datetime(meta["note_date"])
-    meta["visit_occurrence_id"] = meta["visit_occurrence_id"].astype("int64")
+    meta["visit_occurrence_id"] = pd.to_numeric(meta["visit_occurrence_id"], errors="coerce").astype(pd.Int64Dtype())
     meta.to_parquet(dirs["data_to_process"] / "data_to_process.parquet", index=False)
 
     # 3. note_to_groups_map
@@ -683,8 +685,8 @@ def import_notes_file(file_path, output_folder, log_fn=print):
         {
             "note_id": df["note_id"].astype("int64"),
             "visit_occurrence_id": meta["visit_occurrence_id"],
-            "visit_start_date": pd.to_datetime(df["note_date"]),
-            "visit_end_date": pd.to_datetime(df["note_date"]),
+            "visit_start_date": pd.to_datetime(df["visit_start_date"]),
+            "visit_end_date": pd.to_datetime(df["visit_end_date"]),
         }
     )
     visits.to_parquet(
