@@ -126,8 +126,7 @@ class NoteBatchProcessor(WorkerMixin, InstanceLogrMixin):
                 lb_date = date(2010, 1, 1)
 
             if base_data.note_date < pd.Timestamp(lb_date):
-                logger.debug('test')
-                pass
+                continue
 
             is_patient_communication: bool = base_data.is_patient_communication
             is_note_within_visit: bool = base_data.is_note_within_visit
