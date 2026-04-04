@@ -12,7 +12,8 @@ class NoteToGroupsMap(PolarDataSet):
 
     def __init__(self) -> None:
         path = os.getenv("NOTE_TO_GROUPS_MAP_PATH")
-        raise ValueError("Environment variable NOTE_TO_GROUPS_MAP_PATH is not set.")
+        if path is None:
+            raise ValueError("Environment variable NOTE_TO_GROUPS_MAP_PATH is not set.")
         super().__init__(path)
 
     def get(self) -> pl.DataFrame:

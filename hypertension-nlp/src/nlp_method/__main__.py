@@ -4,7 +4,7 @@ import multiprocessing as mp
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # Reads .env from current working directory
+load_dotenv(Path(__file__).resolve().parent / ".env")  # Reads .env from current working directory
 
 from nlp_method.app.cleanup import cleanup
 from datasources.data.note_data import NoteData
