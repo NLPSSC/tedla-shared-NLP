@@ -34,13 +34,17 @@ This will clone latest commit into the `nlp_pipeline` folder.
 
 You can also navigate to the [release page for the project](https://github.com/NLPSSC/tedla-shared-NLP/releases/tag/0.1.0), and download the source in your preferred archive format into the `nlp_pipeline` folder.
 
+<div>
 <img src="resources/screenshots/release_source.png" alt="Download source from release" width=55%/>
+</div>
 
 **Expected Project Files**
 
 Once you have cloned or downloaded and extracted the files, the `nlp_pipeline` folder will look like 
 
+<div>
 <img src="./resources/screenshots/expected_files.png" alt="Expected files after retrieving the nlp pipeline" width=55%/>
+</div>
 
 ### Trying Out the Pipeline with Mock Data
 
@@ -56,43 +60,64 @@ As executed in the command window...
 <img src="./resources/screenshots/pipeline_launching_cmd.png" alt="Launched from CMD" width=55%/>
 </div>
 
+
 This opens the user interface.
+<div>
 <img src="./resources/screenshots/nlp_pipeline_ui_initial.png" alt="Initial UI" width=55%/>
+</div>
 
 2. Click the "Install" button to create the python environment.
 
+<div>
 <img src="./resources/screenshots/nlp_pipeline_ui_install_venv.png" alt="Environment Install" width=55%/>
+</div>
 
 This will set up the python environment.
 
+<div>
 <img src="./resources/screenshots/nlp_pipeline_ui_post_venv_install.png" alt="Post environment creation" width=55%/>
+</div>
 
 3. Once the python environment setup is complete, click the "Import CSV/Excel" button to import the mock data.  
 
+<div>
 <img src="./resources/screenshots/nlp_pipeline_ui_pre_import.png" alt="Pre Import" width=55%/>
+</div>
 
 
+<div>
 <img src="./resources/screenshots/nlp_pipeline_ui_select_input.png" alt="Input folder selection" width=55%/>
+</div>
 
 This will automatically ask for the preferred location of the output for the NLP pipeline.  Create a folder, if needed, and select that folder in the next dialog (using the sample_data folder for this example).
 
+<div>
 <img src="./resources/screenshots/nlp_pipeline_ui_output_folder_selection.png" alt="Output folder selection" width=55%/>
+</div>
 
 This will create two new folders: `imported_input` and `imported_output`.  The output from the NLP pipeline will later be found within `imported_output`.
 
+<div>
 <img src="./resources/screenshots/nlp_pipeline_ui_post_import_folder.png" alt="Post Import" width=55%/>
+</div>
 
 4. Configure the number of workers with which you want to run the pipeline, and click the "Run Pipeline" button to start the process.
 
+<div>
 <img src="./resources/screenshots/nlp_pipeline_ui_config_and_exec.png" alt="Configure and Exectute" width=55%/>
+</div>
 
 5. Once the pipeline has completed, 
 
-<img src="./resources/screenshots/pipeline_completed.png" alt="alt text" width=55%/>   
+<div>
+<img src="./resources/screenshots/pipeline_completed.png" alt="alt text" width=55%/>
+</div>   
    
 you can export the results to a CSV file by clicking the "Export CSV" button and selecting a destination folder.
 
+<div>
 <img src="./resources/screenshots/destination_csv_export.png" alt="alt text" width=55%/>
+</div>
 
 
 The [data-dictionary.pdf](./resources/data-dictionary.pdf) contains a description of the results table schema.
