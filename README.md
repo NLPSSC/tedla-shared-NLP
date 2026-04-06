@@ -52,7 +52,9 @@ Mock data has been provided (non-PHI, non-PII), which simulates the data you wil
 1. Run `run.bat` within the `nlp_folder` to start the pipeline.
 
 As executed in the command window...
+<div>
 <img src="./resources/screenshots/pipeline_launching_cmd.png" alt="Launched from CMD" width=55%/>
+</div>
 
 This opens the user interface.
 <img src="./resources/screenshots/nlp_pipeline_ui_initial.png" alt="Initial UI" width=55%/>
