@@ -96,3 +96,8 @@ you can export the results to a CSV file by clicking the "Export CSV" button and
 The [data-dictionary.pdf](./resources/data-dictionary.pdf) contains a description of the results table schema.
 
 6. At this point the pipeline is complete with the results in the exported CSV file.
+
+
+### Next Steps
+
+Review the documentation on building the SQL ETL in your local environment, located in [resources\sql_defining_notes_to_process.md](./resources/sql_defining_notes_to_process.md)
