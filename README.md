@@ -8,7 +8,7 @@ Documentation for this tool's use can be found in [TEDLA_Pipeline_Documentation.
 
 ## Trying Out Sample Data
 
-Import sample data found at [./sample_data/mock.note_data.csv](./sample_data/mock.note_data.csv).
+Import sample data found at [resources\sample_data\mock.note_data.csv](resources\sample_data\mock.note_data.csv).
 
 <img src="./resources/processing.png" alt="Processing..." width="55%">
 
