@@ -34,16 +34,23 @@ This code assumes that you already have a patient cohort with at minimum a
 unique id for each patient as used by other tables in the system.  This SQL
 assumes the name of this table to be `cohort`.
 
+The cohort table should contain eligible individuals identified from the structured
+data that has already been shared with VUMC, and the cohort table should include
+both MRN and person_id. The person_id should be the same ID used when sharing the
+structured data so that we can merge the NLP data with the structured dataset.
+
 ```sql
 -- The list of patients in the cohort
-select person_id from cohort with (nolock)
+select  person_id
+        , mrn -- link to eligible participants in local dataset
+from cohort with (nolock)
 ```
 
 #### NLP Export Data
 
 Create the table, `nlp_data_export`, containing the data to export for
 NLP processing using patient cohort notes and supporting features for
-note dates from `1/1/2010` to `12/31/2025`.
+note dates from `1/1/2010` to `12/31/2024`.
 
 The following queries combines all the logic to create this table into
 one query for simplicity.  It is recommended, however, that if possible
@@ -56,7 +63,9 @@ can build appropriate indexes to facilitate efficient querying.
 ```sql
 -- Patient Cohort
 with cte_cohort as (
-    select person_id from cohort with (nolock)
+    select  person_id
+            , mrn -- link to eligible participants in local dataset
+    from cohort with (nolock)
 )
 -- Notes linked to Patients
 , cte_notes as (
@@ -75,7 +84,7 @@ with cte_cohort as (
     FROM note n with (nolock)
         INNER JOIN cohort c with (nolock)
             ON n.person_id = c.person_id
-    WHERE n.note_date BETWEEN '2010-01-01' AND '2025-12-31'
+    WHERE n.note_date BETWEEN '2010-01-01' AND '2024-12-31'
 )
 -- Visits linked to Notes
 , cte_visits as (
