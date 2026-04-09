@@ -296,11 +296,18 @@ Server database, export folder, and batch size.
 ```powershell
 # ---------------------------------------------------------------------------
 # Configuration — update these values for your environment
+#
+# Note: Please ensure that the value of $batchSize is set appropriately for
+# your system's memory and performance capabilities. A larger batch size may
+# reduce the number of files generated but could increase memory usage, 
+# processing time, and affect the responsiveness of the SQL Server (impacting
+# other users). Conversely, a smaller batch size may generate more files but
+# will typically use less memory and allow for quicker processing of each batch.
 # ---------------------------------------------------------------------------
 $server      = "YOUR_SERVER_NAME"
 $database    = "YOUR_DATABASE_NAME"
 $exportPath  = "C:\path\to\export\folder"
-$batchSize   = 10000
+$batchSize   = 100000
 
 $batchIndex  = 1
 
